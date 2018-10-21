@@ -4,13 +4,13 @@
     <!--android:centerColor="@color/primaryLightColor"-->
     <!--android:startColor="@color/secondaryColor"-->
     <!--android:angle="270" />-->
-    <stroke android:width="1dp" android:color="@color/lightGray"/>
-    <corners android:radius="48dp" />
+
+    <corners android:radius="35dp" />
     <solid android:color="#fff" />
     <padding
         android:bottom="4dp"
-        android:left="4dp"
-        android:right="4dp"
+        android:left="8dp"
+        android:right="8dp"
         android:top="4dp" />
 
 </shape>

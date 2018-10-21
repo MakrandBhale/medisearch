@@ -5,12 +5,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
-public class SplashActivity extends AppCompatActivity {
+import com.google.firebase.auth.FirebaseAuth;
 
+public class SplashActivity extends AppCompatActivity {
+    FirebaseAuth auth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+        auth = FirebaseAuth.getInstance();
+        if(auth.getCurrentUser() != null)
+            startActivity(new Intent(this, MainActivity.class));
+
     }
 
     public void goOn(View view){

@@ -8,18 +8,36 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
         <ImageButton
+            android:id="@+id/hamburger"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_menu"
             android:background="@android:color/transparent"
-            android:padding="12dp"/>
+            android:padding="12dp"
+            android:onClick="openFeed"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="MedSearch"
+            android:fontFamily="@font/lobster"
+            android:textSize="20sp"
+            />
     </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/recycler_view"
+        android:layout_marginTop="48dp"
+        android:layout_marginBottom="112dp"/>
+
     <LinearLayout
         android:id="@+id/bottom_bar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="112dp"
         android:orientation="vertical"
         android:background="@color/midGray"
         android:layout_alignParentBottom="true">
@@ -34,21 +52,53 @@
                 android:src="@drawable/ic_history"
                 android:padding="12dp"
                 />
-            <ListView
+            <HorizontalScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                >
+                android:layout_height="match_parent"
+                android:id="@+id/scrollView"
+                android:clipToPadding="false"
 
-            </ListView>
+                >
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:id="@+id/row"
+                    android:orientation="horizontal"
+                    android:clipToPadding="false"
+                    android:gravity="center_vertical"
+                    >
+
+                </LinearLayout>
+            </HorizontalScrollView>
         </LinearLayout>
-        <EditText
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/search_bar"
             android:layout_margin="8dp"
-            android:drawableStart="@drawable/ic_search"
-            android:drawableEnd="@drawable/ic_camera"
-            android:hint="Search for medicines..."
-            />
+            android:gravity="center_vertical">
+            <EditText
+                android:id="@+id/search_bar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/search_bar"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:hint="Search for medicines..."
+                android:maxLines="1"
+                android:layout_weight="1"
+                android:fontFamily="@font/josefin_regular"
+                />
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:padding="12dp"
+                android:id="@+id/search_button"
+                android:src="@drawable/ic_search"/>
+        </LinearLayout>
+
     </LinearLayout>
 </RelativeLayout>
