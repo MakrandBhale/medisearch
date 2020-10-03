@@ -1,13 +1,17 @@
 package Models;
 
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
+
+import com.google.firebase.database.IgnoreExtraProperties;
 
 import java.io.Serializable;
 
-public class MedData implements Serializable{
-    String brand, expdate,manudate,medtype,mg,name,ownedby,price;
+@IgnoreExtraProperties
+public class MedData implements Serializable, Comparable<MedData>{
+    private String brand, expdate, manudate, medtype, mg, name, ownedby, price;
+    private double distance;
 
-    public MedData(){}
     public MedData(String brand, String expdate, String manudate, String medtype, String mg, String name, String ownedby, String price) {
         this.brand = brand;
         this.expdate = expdate;
@@ -81,5 +85,69 @@ public class MedData implements Serializable{
 
     public void setPrice(String price) {
         this.price = price;
+    }
+   public double getDistance() {
+        return distance;
+    }
+
+    public void setDistance(double distance) {
+        this.distance = distance;
+    }
+/*
+    public String getBrand() {
+        return brand;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String getOffer() {
+        return offer;
+    }
+
+    public void setOffer(String offer) {
+        this.offer = offer;
+    }
+
+    public String getOwnedby() {
+        return ownedby;
+    }
+
+    public void setOwnedby(String ownedby) {
+        this.ownedby = ownedby;
+    }
+
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
+    }
+
+//    public String getTitle() {
+//        return title;
+//    }
+//
+//    public void setTitle(String title) {
+//        this.title = title;
+//    }*/
+
+    public MedData() {
+    }
+
+
+    @Override
+    public int compareTo(@NonNull MedData medData) {
+        return Double.compare(this.getDistance(), medData.getDistance());
     }
 }

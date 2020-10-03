@@ -1,7 +1,51 @@
 package Models;
 
 public class Shop {
-    private String latitude, longitude,id,references, reviews, shopname;
+    private String id, latitude, longitude, shopname;
+
+    public Shop(String id, String latitude, String longitude, String shopname) {
+        this.id = id;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.shopname = shopname;
+    }
+
+    public Shop() {
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
+    }
+
+    public String getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
+    }
+
+    public String getShopname() {
+        return shopname;
+    }
+
+    public void setShopname(String shopname) {
+        this.shopname = shopname;
+    }
+
+    /*private String latitude, longitude,id, reviews, name;
     public Shop(){
 
     }
@@ -30,13 +74,7 @@ public class Shop {
         this.id = id;
     }
 
-    public String getReferences() {
-        return references;
-    }
 
-    public void setReferences(String references) {
-        this.references = references;
-    }
 
     public String getReviews() {
         return reviews;
@@ -46,11 +84,11 @@ public class Shop {
         this.reviews = reviews;
     }
 
-    public String getShopname() {
-        return shopname;
+    public String getName() {
+        return name;
     }
 
-    public void setShopname(String shopname) {
-        this.shopname = shopname;
-    }
+    public void setName(String name) {
+        this.name = name;
+    }*/
 }

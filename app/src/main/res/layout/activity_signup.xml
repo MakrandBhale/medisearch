@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".LoginActivity"
-
+    android:background="@color/colorPrimary"
     >
     <!--<include-->
     <!--android:id="@+id/toolbar"-->
@@ -29,7 +29,8 @@
             android:fontFamily="@font/josefin_bold"
             android:text="Welcome"
             android:textAlignment="center"
-            android:textSize="36sp" />
+            android:textSize="36sp"
+            android:textColor="@color/lightGray"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -37,7 +38,8 @@
             android:fontFamily="@font/josefin_regular"
             android:textAlignment="center"
             android:textSize="18sp"
-            android:layout_marginBottom="12dp"/>
+            android:layout_marginBottom="12dp"
+            android:textColor="@color/lightGray"/>
 
         <EditText
             android:id="@+id/email"
@@ -114,6 +116,7 @@
                 android:layout_height="wrap_content"
                 android:text="Already a member?"
                 android:fontFamily="@font/josefin_regular"
+                android:textColor="@color/lightGray"
                 />
 
             <TextView
@@ -122,7 +125,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/josefin_semi_bold"
                 android:text=" Log in"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/accentColor"
                 android:onClick="goToLogin"/>
         </LinearLayout>
         <ProgressBar

@@ -4,12 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:background="@drawable/image_background"
+    >
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        android:background="@color/colorPrimaryDark">
         <ImageButton
             android:id="@+id/hamburger"
             android:layout_width="wrap_content"
@@ -21,62 +24,73 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="MedSearch"
-            android:fontFamily="@font/lobster"
+            android:text="@string/app_name"
+            android:fontFamily="@font/josefin_bold"
             android:textSize="20sp"
+            android:textColor="@color/accentColor"
             />
     </LinearLayout>
-
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_centerInParent="true"
+        android:text="No product found matching search keyword :("
+        android:visibility="gone"
+        android:id="@+id/nothing_found"/>
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/recycler_view"
         android:layout_marginTop="48dp"
-        android:layout_marginBottom="112dp"/>
+        android:layout_marginBottom="64dp"/>
 
     <LinearLayout
         android:id="@+id/bottom_bar"
         android:layout_width="match_parent"
-        android:layout_height="112dp"
+        android:layout_height="64dp"
         android:orientation="vertical"
-        android:background="@color/midGray"
+
         android:layout_alignParentBottom="true">
-        <LinearLayout
-            android:id="@+id/suggestions"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:orientation="horizontal">
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_history"
-                android:padding="12dp"
-                />
-            <HorizontalScrollView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/scrollView"
-                android:clipToPadding="false"
+        <!--<LinearLayout-->
+            <!--android:id="@+id/suggestions"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="48dp"-->
+            <!--android:orientation="horizontal">-->
+            <!--&lt;!&ndash;<ImageView&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:src="@drawable/ic_history"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:padding="12dp"&ndash;&gt;-->
+                <!--&lt;!&ndash;&ndash;&gt;-->
+                <!--&lt;!&ndash;/>&ndash;&gt;-->
+            <!--&lt;!&ndash;<HorizontalScrollView&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_height="match_parent"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:id="@+id/scrollView"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:clipToPadding="false"&ndash;&gt;-->
 
-                >
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:id="@+id/row"
-                    android:orientation="horizontal"
-                    android:clipToPadding="false"
-                    android:gravity="center_vertical"
-                    >
+                <!--&lt;!&ndash;&gt;&ndash;&gt;-->
+                <!--&lt;!&ndash;<LinearLayout&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_height="match_parent"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:id="@+id/row"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:orientation="horizontal"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:clipToPadding="false"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:gravity="center_vertical"&ndash;&gt;-->
+                    <!--&lt;!&ndash;&gt;&ndash;&gt;-->
 
-                </LinearLayout>
-            </HorizontalScrollView>
-        </LinearLayout>
+                <!--&lt;!&ndash;</LinearLayout>&ndash;&gt;-->
+            <!--&lt;!&ndash;</HorizontalScrollView>&ndash;&gt;-->
+        <!--</LinearLayout>-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/search_bar"
             android:layout_margin="8dp"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:elevation="2dp"
+            >
             <EditText
                 android:id="@+id/search_bar"
                 android:layout_width="0dp"
@@ -86,10 +100,12 @@
                 android:paddingBottom="8dp"
                 android:paddingStart="12dp"
                 android:paddingEnd="12dp"
-                android:hint="Search for medicines..."
+                android:hint="Search..."
                 android:maxLines="1"
                 android:layout_weight="1"
-                android:fontFamily="@font/josefin_regular"
+                android:imeOptions="actionSearch"
+                android:inputType="text"
+
                 />
             <ImageButton
                 android:layout_width="wrap_content"

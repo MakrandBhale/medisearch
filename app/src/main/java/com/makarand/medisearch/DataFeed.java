@@ -28,15 +28,15 @@ public class DataFeed extends AppCompatActivity {
         price = findViewById(R.id.price);
     }
     public void feed(View v){
-        MedData m = new MedData(brand.getText().toString(),
-                expdate.getText().toString(),
-                manudate.getText().toString(),
-                medtype.getText().toString(),
-                mg.getText().toString(),
-                name.getText().toString(),
-                ownedby.getText().toString(),
-                price.getText().toString());
-        dbRef.push().setValue(m);
+//        MedData m = new MedData(brand.getText().toString(),
+//                expdate.getText().toString(),
+//                manudate.getText().toString(),
+//                medtype.getText().toString(),
+//                mg.getText().toString(),
+//                name.getText().toString(),
+//                ownedby.getText().toString(),
+//                price.getText().toString());
+//        dbRef.push().setValue(m);
     }
 }
 

@@ -1,5 +1,6 @@
 package com.makarand.medisearch;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -25,21 +26,29 @@ public class SignupActivity extends AppCompatActivity {
     FirebaseAuth auth;
     String email,password, mobile, name;
     DatabaseReference usersRef;
+    ProgressDialog pd;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
         waiter = findViewById(R.id.waiter);
         auth = FirebaseAuth.getInstance();
+        pd = new ProgressDialog(this);
+        if (auth.getCurrentUser() != null) {
+            startActivity(new Intent(this, MainActivity.class));
+            finish();
+        }
         usersRef = FirebaseDatabase.getInstance().getReference("users");
+
     }
 
-    public void goToLogin(){
+    public void goToLogin(View v){
         startActivity(new Intent(this, LoginActivity.class));
     }
 
     public void signup(View v){
         if(!validate()) return;
+        pd.show();
         waiter.setVisibility(View.VISIBLE);
         toggleTouchable();
         auth.createUserWithEmailAndPassword(email, password)
@@ -58,6 +67,7 @@ public class SignupActivity extends AppCompatActivity {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
+                        pd.dismiss();
                         toggleTouchable();
                         Toast.makeText(SignupActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
                     }

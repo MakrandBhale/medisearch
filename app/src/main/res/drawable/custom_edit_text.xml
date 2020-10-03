@@ -5,7 +5,7 @@
     <!--android:startColor="@color/secondaryColor"-->
     <!--android:angle="270" />-->
     <corners android:radius="36dp" />
-    <solid android:color="@color/lightGray" />
+    <solid android:color="@color/grayColor" />
     <padding
         android:bottom="8dp"
         android:left="8dp"

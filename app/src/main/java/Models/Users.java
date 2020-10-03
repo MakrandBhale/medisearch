@@ -1,5 +1,8 @@
 package Models;
 
+import com.google.firebase.database.IgnoreExtraProperties;
+
+@IgnoreExtraProperties
 public class Users {
     private String email, mobile, name, uid;
 

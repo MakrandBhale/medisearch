@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".LoginActivity"
+    android:background="@color/colorPrimary"
     >
 
     <LinearLayout
@@ -20,7 +21,8 @@
             android:fontFamily="@font/josefin_bold"
             android:text="Hi."
             android:textAlignment="center"
-            android:textSize="36sp" />
+            android:textSize="36sp"
+            android:textColor="@color/lightGray"/>
 
         <TextView
             android:id="@+id/login_subText"
@@ -30,7 +32,8 @@
             android:text="Login to your account"
             android:textAlignment="center"
             android:textSize="24sp"
-            android:layout_marginBottom="18dp"/>
+            android:layout_marginBottom="18dp"
+            android:textColor="@color/lightGray"/>
         <EditText
             android:id="@+id/email"
             android:layout_width="match_parent"
@@ -78,7 +81,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/josefin_regular"
-                android:text="Not a member?" />
+                android:text="Not a member?"
+                android:textColor="@color/midGray"/>
 
             <TextView
                 android:id="@+id/signup_link"
@@ -86,7 +90,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/josefin_bold"
                 android:text=" Sign up"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/accentColor"
                 android:onClick="goToSignup"/>
         </LinearLayout>
         <ProgressBar

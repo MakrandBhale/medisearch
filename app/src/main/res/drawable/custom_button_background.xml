@@ -6,7 +6,7 @@
     <!--android:angle="270" />-->
 
     <corners android:radius="35dp" />
-    <solid android:color="@color/colorPrimary" />
+    <solid android:color="@color/accentColor" />
     <padding
         android:bottom="10dp"
         android:left="12dp"

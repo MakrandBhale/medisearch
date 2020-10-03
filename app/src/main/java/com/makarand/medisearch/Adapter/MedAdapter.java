@@ -34,10 +34,13 @@ public class MedAdapter extends RecyclerView.Adapter<MedViewHolder> {
     public void onBindViewHolder(MedViewHolder viewHolder, int position){
         MedData medData = medDataList.get(position);
         viewHolder.setName(medData.getName());
-        viewHolder.setDistance("00");
         viewHolder.setPrice(medData.getPrice());
-        viewHolder.setSeller(medData.getOwnedby());
-        viewHolder.setMg(medData.getMg());
+        viewHolder.setBrand(medData.getBrand());
+
+        viewHolder.setDistance(medData.getDistance());
+//        viewHolder.setOffer(medData.getOffer().equals("0%off") ? "" : medData.getOffer());
+        //viewHolder.setSeller(medData.getOwnedby());
+       //viewHolder.setMg(medData.getMg());
         viewHolder.setListener(medData);
     }
 

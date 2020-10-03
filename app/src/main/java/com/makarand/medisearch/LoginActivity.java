@@ -1,5 +1,6 @@
 package com.makarand.medisearch;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.media.tv.TvContract;
 import android.support.annotation.NonNull;
@@ -21,12 +22,19 @@ public class LoginActivity extends AppCompatActivity {
     Boolean touchable = true;
     FirebaseAuth auth;
     String email,password;
+    ProgressDialog pd;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         waiter = findViewById(R.id.waiter);
         auth = FirebaseAuth.getInstance();
+        if (auth.getCurrentUser() != null) {
+            startActivity(new Intent(this, MainActivity.class));
+            finish();
+        }
+        pd = new ProgressDialog(this);
+        pd.setMessage("Logging in");
     }
 
     public void goToSignup(View view){
@@ -34,7 +42,9 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void login(View view){
+
         if(!validate()) return;
+        pd.show();
         waiter.setVisibility(View.VISIBLE);
         toggleTouchable();
         auth.signInWithEmailAndPassword(email, password)
@@ -51,6 +61,7 @@ public class LoginActivity extends AppCompatActivity {
                 @Override
                 public void onFailure(@NonNull Exception e) {
                     toggleTouchable();
+                    pd.dismiss();
                     Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
                 }
             });

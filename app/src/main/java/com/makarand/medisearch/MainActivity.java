@@ -1,22 +1,27 @@
 package com.makarand.medisearch;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.location.Location;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.MotionEvent;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -26,29 +31,43 @@ import com.google.firebase.database.ValueEventListener;
 import com.makarand.medisearch.Adapter.MedAdapter;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import Models.MedData;
+import Models.Shop;
 
 public class MainActivity extends AppCompatActivity {
     LinearLayout row;
     //ImageButton ham;
     EditText searchBar;
-    DatabaseReference dbRef;
+    DatabaseReference dbRef, shopRef;
     List<MedData> medDataList;
     RecyclerView recyclerView;
     MedAdapter medAdapter;
     LinearLayoutManager layoutManager;
     ImageButton searchButton;
+    ProgressDialog pd;
+    TextView nothingFound;
+    Location userLocation, storeLocation;
+
+    private FusedLocationProviderClient fusedLocationClient;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        row = findViewById(R.id.row);
+        //row = findViewById(R.id.row);
+        userLocation = null;
+        storeLocation = new Location("");
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+
         searchBar = findViewById(R.id.search_bar);
         dbRef = FirebaseDatabase.getInstance().getReference("meddata");
+        shopRef = FirebaseDatabase.getInstance().getReference("shop");
         layoutManager = new LinearLayoutManager(this);
         searchButton = findViewById(R.id.search_button);
+        nothingFound = findViewById(R.id.nothing_found);
         //createChip();
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(layoutManager);
@@ -60,10 +79,47 @@ public class MainActivity extends AppCompatActivity {
                     searchForMed(searchText);
             }
         });
+
+        searchBar.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                boolean handled = false;
+                if(i == EditorInfo.IME_ACTION_SEARCH) {
+                    String searchText = searchBar.getText().toString().trim();
+                    searchForMed(searchText);
+                    handled = true;
+                }
+                return handled;
+            }
+        });
+        getLocation();
+        pd = new ProgressDialog(this);
+        pd.setMessage("Searching...");
+        pd.setTitle("Please wait");
+        pd.setCancelable(false);
+        pd.setCanceledOnTouchOutside(true);
+    }
+
+    private void getLocation() {
+        try {
+            fusedLocationClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
+                @Override
+                public void onSuccess(Location location) {
+                    if(location != null){
+                        userLocation = location;
+                    }
+                }
+            });
+        }
+        catch (SecurityException e){
+            Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void searchForMed(String searchText) {
-        Query query = dbRef.orderByChild("name").startAt(searchText);
+        pd.show();
+        nothingFound.setVisibility(View.GONE);
+        Query query = dbRef.orderByChild("name").startAt(searchText).endAt(searchText+"\uf8ff");
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -71,25 +127,51 @@ public class MainActivity extends AppCompatActivity {
                     medDataList = new ArrayList<MedData>();
                     for(DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()){
                         final MedData medData = dataSnapshot1.getValue(MedData.class);
-                        medDataList.add(medData);
-                        medAdapter = new MedAdapter(medDataList, MainActivity.this);
-                        recyclerView.setAdapter(medAdapter);
+                        FirebaseDatabase.getInstance().getReference("shop/"+ medData.getOwnedby())
+                                .addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                        Shop shop = dataSnapshot.getValue(Shop.class);
+                                        storeLocation.setLatitude(Double.valueOf(shop.getLatitude()));
+                                        storeLocation.setLongitude(Double.valueOf(shop.getLongitude()));
+                                        medData.setOwnedby(shop.getId());
+                                        medData.setDistance(userLocation.distanceTo(storeLocation));
+                                        //medData.setShopId(shop.getId());
+                                        medDataList.add(medData);
+                                        Collections.sort(medDataList);
+                                        medAdapter = new MedAdapter(medDataList, MainActivity.this);
+                                        recyclerView.setAdapter(medAdapter);
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                                        pd.dismiss();
+                                    }
+                                });
+
                     }
+
+                    pd.dismiss();
                 }
                 else {
-                    Toast.makeText(MainActivity.this, "Your search did not turn up any results.", Toast.LENGTH_SHORT).show();
+                    nothingFound.setVisibility(View.VISIBLE);
+                    //Toast.makeText(MainActivity.this, "Your search did not turn up any results.", Toast.LENGTH_SHORT).show();
+                    recyclerView.setAdapter(null);
+                    pd.dismiss();
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                Toast.makeText(MainActivity.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
 
+
+
     public void openFeed(View view){
-        startActivity(new Intent(this, DataFeed.class));
+        //startActivity(new Intent(this, DataFeed.class));
     }
     private void createChip() {
         Button chip = new Button(getApplicationContext());
