@@ -1,8 +1,6 @@
 # Medisearch
 *A search engine for pharmaceutical products*
 
-Medisearch works on the BookMyShow model, one end (pharmacy end) will feed in data to the Firebase and then we can search the data and filter it based on the distance of the user from the pharmacy. 
-
 ## Screenshots
 
 Login/Signup             |  Search          |  Search results          |  Map & Location
